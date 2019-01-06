@@ -1,8 +1,8 @@
 #include "ros/ros.h"
 #include "std_msgs/String.h"
-//#include "geometry_msgs/Twist.h"
+#include "geometry_msgs/Twist.h"
 
-void chatterCallback(const std_msgs::String::ConstPtr& msg);
+void cmd_vel_callback(const geometry_msgs::Twist& msg);
 
 int main(int argc, char **argv)
 {
@@ -11,13 +11,13 @@ int main(int argc, char **argv)
 	ros::NodeHandle nodehandle;
 
 	/* topic, buffer, callback */
-	ros::Subscriber sub = nodehandle.subscribe("cmd_vel", 10, chatterCallback);
+	ros::Subscriber sub = nodehandle.subscribe("cmd_vel", 10, cmd_vel_callback);
 
 	ros::spin();
 
 }
 
-void chatterCallback(const std_msgs::String::ConstPtr& msg)
+void cmd_vel_callback(const geometry_msgs::Twist& msg)
 {
-  ROS_INFO("I heard: [%s]", msg->data.c_str());
+	ROS_INFO("Peta: [%f]", msg.linear.x);
 }
