@@ -27,7 +27,7 @@ int main(int argc, char **argv)
 	publisher = nodehandle.advertise<std_msgs::UInt16>("lucy/motor_control", 10);
 
 
-
+	ROS_INFO("Publishing to lucy/motor_control...");
 
 	ros::spin();
 
@@ -35,7 +35,7 @@ int main(int argc, char **argv)
 
 void cmd_vel_callback(const geometry_msgs::Twist& msg)
 {
-	ROS_INFO("Peta: [%f] [%f]", msg.linear.x, msg.angular.z);
+	//ROS_INFO("Peta: [%f] [%f]", msg.linear.x, msg.angular.z);
 
 	float schubOld = msg.linear.x; 
 	float steeringOld = msg.angular.z;
@@ -68,7 +68,6 @@ void cmd_vel_callback(const geometry_msgs::Twist& msg)
 		schub = ZERO_SCHUB_INT + schubOld;
 	}
 
-	//TOOD: adjsust
 	if(negativeSteering)
 	{
 		steering = ZERO_STEERING_INT + steeringOld;

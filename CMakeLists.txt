@@ -12,6 +12,12 @@ generate_messages(DEPENDENCIES std_msgs geometry_msgs)
 catkin_package()
 
 
-add_executable(lucy_bc src/cmd_vel_to_steering_and_speed.cpp)
-target_link_libraries(lucy_bc ${catkin_LIBRARIES})
-add_dependencies(lucy_bc beginner_tutorials_generate_messages_cpp)
+## cmd_vel_to_steering_and_speed
+add_executable(base_controller_transform src/cmd_vel_to_steering_and_speed.cpp)
+target_link_libraries(base_controller_transform ${catkin_LIBRARIES})
+add_dependencies(base_controller_transform beginner_tutorials_generate_messages_cpp)
+
+## motor_control_debugger
+add_executable(debugger src/motor_control_debugger.cpp)
+target_link_libraries(debugger ${catkin_LIBRARIES})
+add_dependencies(debugger beginner_tutorials_generate_messages_cpp)
