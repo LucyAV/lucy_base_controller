@@ -4,8 +4,7 @@
 #include <std_msgs/String.h>
 #include <std_msgs/UInt16.h>
 #include <geometry_msgs/Twist.h>
-
-void cmd_vel_callback(const geometry_msgs::Twist& msg);
+#include <math.h>
 
 const float MAX_SCHUB_FLOAT = 1.0f;
 const float MAX_STEERING_FLOAT = 1.0f;
@@ -13,12 +12,17 @@ const uint8_t MAX_SCHUB_INT = 50;
 const uint8_t ZERO_SCHUB_INT = 50; /* schub 0 - 100, where 50 is zero */
 const uint8_t MAX_STEERING_INT = 50;
 const uint8_t ZERO_STEERING_INT = 50; /* steering 0 - 100, where 50 is zero */
+const float WHEELBASE = 0.15f;
+
+
+void cmd_vel_callback(const geometry_msgs::Twist& msg);
+float convert_rotation_to_steering(float vel, float omega);
 
 ros::Publisher publisher;
 
 int main(int argc, char **argv)
 {
-	ros::init(argc, argv, "cmd_vel_to_steering_and_speed");
+	ros::init(argc, argv, "cmd_vel_to_ackermann");
 
 	ros::NodeHandle nodehandle;
 
@@ -27,35 +31,47 @@ int main(int argc, char **argv)
 	publisher = nodehandle.advertise<std_msgs::UInt16>("lucy/motor_control", 10);
 
 
-	ROS_INFO("Publishing to lucy/motor_control...");
+	ROS_INFO("Publishing to /lucy/motor_control");
 
 	ros::spin();
 
 }
 
+float convert_rotation_to_steering(float vel, float omega)
+{
+	if (omega == 0 || vel == 0)
+	{
+		return 0;
+	}
+
+	float radius = vel / omega;
+	return atan(WHEELBASE / radius);
+}
+
 void cmd_vel_callback(const geometry_msgs::Twist& msg)
 {
 	//ROS_INFO("Peta: [%f] [%f]", msg.linear.x, msg.angular.z);
+	//ROS_INFO("Steering: %f", convert_rotation_to_steering(msg.linear.x, steeringRad));
 
 	float schubOld = msg.linear.x; 
-	float steeringOld = msg.angular.z;
+	float steeringRad = convert_rotation_to_steering(msg.linear.x, msg.angular.z);
 
 	bool negativeSchub = schubOld < 0.0f;
-	bool negativeSteering = steeringOld < 0.0f;
+	bool negativeSteering = steeringRad < 0.0f;
 
 	schubOld = fabs(schubOld);
-	steeringOld = fabs(steeringOld);
+	steeringRad = fabs(steeringRad);
 
 	if(schubOld > MAX_SCHUB_FLOAT) schubOld = MAX_SCHUB_FLOAT;
-	if(steeringOld > MAX_STEERING_FLOAT) steeringOld = MAX_STEERING_FLOAT;
+	if(steeringRad > MAX_STEERING_FLOAT) steeringRad = MAX_STEERING_FLOAT;
 
 	/* normalize to 1 */
 	schubOld = schubOld / MAX_SCHUB_FLOAT;
-	steeringOld = steeringOld / MAX_SCHUB_FLOAT;
+	steeringRad = steeringRad / MAX_STEERING_FLOAT;
 
 	/* normalize to MAX_SCHUB_INT and MAX_STEERING_INT */
 	schubOld = schubOld * MAX_SCHUB_INT;
-	steeringOld = steeringOld * MAX_STEERING_INT;
+	steeringRad = steeringRad * MAX_STEERING_INT;
 
 	uint16_t schub, steering;
 
@@ -70,11 +86,11 @@ void cmd_vel_callback(const geometry_msgs::Twist& msg)
 
 	if(negativeSteering)
 	{
-		steering = ZERO_STEERING_INT + steeringOld;
+		steering = ZERO_STEERING_INT + steeringRad;
 	}
 	else
 	{
-		steering = ZERO_STEERING_INT - steeringOld;
+		steering = ZERO_STEERING_INT - steeringRad;
 	}
 
 	uint16_t data;
