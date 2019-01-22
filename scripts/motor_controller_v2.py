@@ -53,7 +53,7 @@ def pwm_setup():
 	# Configure Frequency
 	wiringpi.pwmSetClock(96)
 	wiringpi.pwmSetRange(4000)
-	wiringpi.pwmWrite(PWM_PIN_SERVO, 282)
+	wiringpi.pwmWrite(PWM_PIN_SERVO, 250)
 
 	# Initialize WiringPi, then Pin, then PWM Mode
 	wiringpi.wiringPiSetupGpio()
