@@ -14,13 +14,13 @@ PWM_PIN_SERVO = 18
 PWM_PIN_MOTOR = 19
 
 # Values for the servo
-servo_straight = 141
-servo_variance = 21.0
+servo_straight = 282
+servo_variance = 42.0
 
 # Values for the motor
-motor_idle = 150
-motor_variance = 14.0
-motor_offset = 11
+motor_idle = 300
+motor_variance = 28.0
+motor_offset = 22
 
 def motor_data_handler(data):
 	# higher 8 bit is motor value
