@@ -55,7 +55,7 @@ def pwm_setup():
 	# Configure Frequency
 	wiringpi.pwmSetClock(PWM_CLOCK)
 	wiringpi.pwmSetRange(PWM_RANGE)
-	wiringpi.pwmWrite(PWM_PIN_SERVO, 141)
+	wiringpi.pwmWrite(PWM_PIN_SERVO, 282)
 
 	# Initialize WiringPi, then Pin, then PWM Mode
 	wiringpi.wiringPiSetupGpio()
@@ -64,7 +64,7 @@ def pwm_setup():
 	# Configure Frequency
 	wiringpi.pwmSetClock(PWM_CLOCK)
 	wiringpi.pwmSetRange(PWM_RANGE)
-	wiringpi.pwmWrite(PWM_PIN_MOTOR, 150)
+	wiringpi.pwmWrite(PWM_PIN_MOTOR, 300)
 
 def motor_data_receiver_setup():
 	rospy.init_node('motor_controller_v2', anonymous=True)
