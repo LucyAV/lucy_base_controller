@@ -32,7 +32,7 @@ def motor_data_handler(data):
 	if (motor_received_value == 50):
 		motor_current_value = motor_idle
 	elif motor_received_value > 50:
-		motor_current_value = (motor_idle + motor_offset) + int( (motor_received_value - 50) / (50.0 / motor_variance) )
+		motor_current_value = (motor_idle + motor_offset) + int( (motor_received_value - 50) / (50.0 / motor_variance) ) - 1
 	elif motor_received_value < 50:
 		motor_current_value = (motor_idle - motor_offset) + int( (motor_received_value - 50) / (50.0 / motor_variance) )
 	
