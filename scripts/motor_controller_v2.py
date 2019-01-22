@@ -43,17 +43,19 @@ def motor_data_handler(data):
 
 def pwm_setup():
 	# Clock variables
-	PWM_CLOCK = 192;
-	PWM_RANGE = 2000;
+	#PWM_CLOCK = 192;
+	#PWM_RANGE = 2000;
+	PWM_CLOCK = 96;
+	PWM_RANGE = 4000;
 
 	# Initialize WiringPi, then Pin, then PWM Mode
 	wiringpi.wiringPiSetupGpio()
 	wiringpi.pinMode(PWM_PIN_SERVO, wiringpi.PWM_OUTPUT)
 	wiringpi.pwmSetMode(wiringpi.GPIO.PWM_MODE_MS)
 	# Configure Frequency
-	wiringpi.pwmSetClock(96)
-	wiringpi.pwmSetRange(4000)
-	wiringpi.pwmWrite(PWM_PIN_SERVO, 250)
+	wiringpi.pwmSetClock(PWM_CLOCK)
+	wiringpi.pwmSetRange(PWM_RANGE)
+	wiringpi.pwmWrite(PWM_PIN_SERVO, 141)
 
 	# Initialize WiringPi, then Pin, then PWM Mode
 	wiringpi.wiringPiSetupGpio()
