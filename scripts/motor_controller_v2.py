@@ -20,7 +20,7 @@ servo_variance = 42.0
 # Values for the motor
 motor_idle = 300
 motor_variance = 28.0
-motor_offset = 22
+motor_offset = 20
 
 def motor_data_handler(data):
 	# higher 8 bit is motor value
