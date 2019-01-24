@@ -13,8 +13,9 @@ def lidar_data_handler(data):
 	# Store ranges
 	ranges = data.ranges
 	# Create array for chosen values
-	print(ranges[180])
-	print(len(ranges))
+	print(ranges[160])
+
+	#bei 170 bis 160 ca. ab 50cm
 
 def lidar_data_receiver_setup():
 	rospy.init_node('lidar_test', anonymous=True)

@@ -40,8 +40,7 @@ def drive_until_obstacle():
 	while not rospy.is_shutdown():
 
 		if lidar_forward_clear is True:
-			motor_current_value = 51
-			#isDriving = True
+			motor_current_value = 52
 			publisher.publish( (motor_current_value << 8) | servo_current_value )
 			rate.sleep()
 		else:
