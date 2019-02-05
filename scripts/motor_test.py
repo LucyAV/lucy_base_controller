@@ -37,16 +37,28 @@ def pwm_setup():
 	wiringpi.pwmSetRange(PWM_RANGE)
 	wiringpi.pwmWrite(PWM_PIN_MOTOR, 300)
 
+	print("Setup done, idle for 2 s")
 	rospy.sleep(2)
-	wiringpi.pwmWrite(PWM_PIN_MOTOR, 350)
 
-	rospy.sleep(2)
+	#316 as minimum forward
+	#279 as minimum reverse
+
+	wiringpi.pwmWrite(PWM_PIN_MOTOR, 324)
+	print("324 for 2s")
+	rospy.sleep(1)
+
+	wiringpi.pwmWrite(PWM_PIN_MOTOR, 280)
+	print("280 for 0.1s")
+	rospy.sleep(0.1)
+
 	wiringpi.pwmWrite(PWM_PIN_MOTOR, 300)
+	print("300 for 0.1s")
+	rospy.sleep(0.1)
 
-	rospy.sleep(2)
-	wiringpi.pwmWrite(PWM_PIN_MOTOR, 400)
+	wiringpi.pwmWrite(PWM_PIN_MOTOR, 278)
+	print("278 for 1.5s")
+	rospy.sleep(1.5)
 
-	rospy.sleep(2)
 	wiringpi.pwmWrite(PWM_PIN_MOTOR, 300)
 
 if __name__ == '__main__':

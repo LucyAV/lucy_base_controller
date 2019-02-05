@@ -22,18 +22,27 @@ motor_idle = 300
 motor_variance = 28.0
 motor_offset = 20
 
+motor_current_value = motor_idle
+
 def motor_data_handler(data):
 	# higher 8 bit is motor value
 	# lower 8 bit is servo value
+	global motor_current_value
+
 	received_data = data.data
 	motor_received_value = received_data >> 8
 	servo_received_value = received_data & 0x00FF
 
-	if (motor_received_value == 50):
+	if motor_received_value == 50:
 		motor_current_value = motor_idle
 	elif motor_received_value > 50:
 		motor_current_value = (motor_idle + motor_offset) + int( (motor_received_value - 50) / (50.0 / motor_variance) ) - 1
 	elif motor_received_value < 50:
+		if motor_current_value > 300:
+			wiringpi.pwmWrite(PWM_PIN_MOTOR, 250)
+			rospy.sleep(0.15)
+			wiringpi.pwmWrite(PWM_PIN_MOTOR, 300)
+			rospy.sleep(0.1)
 		motor_current_value = (motor_idle - motor_offset) + int( (motor_received_value - 50) / (50.0 / motor_variance) )
 	
 	servo_current_value = servo_straight + int( (servo_received_value - 50) / (50.0 / servo_variance) )
@@ -67,13 +76,13 @@ def pwm_setup():
 	wiringpi.pwmWrite(PWM_PIN_MOTOR, 300)
 
 def motor_data_receiver_setup():
-	rospy.init_node('motor_controller_v2', anonymous=True)
+	rospy.init_node('motor_controller', anonymous=True)
 	rospy.Subscriber('lucy/motor_control', UInt16, motor_data_handler)
 	# rospy.Subscriber('ultrasonic_sensor_data', Float32, ultrasonic_sensor_data_handler)
 
 if __name__ == '__main__':
 	try:
-		print("Starting motor_controller_v2")
+		print("Starting motor_controller")
 		motor_data_receiver_setup()
 		pwm_setup()
 		rospy.spin()
