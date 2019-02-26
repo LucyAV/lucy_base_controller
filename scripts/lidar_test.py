@@ -13,7 +13,7 @@ def lidar_data_handler(data):
 	# Store ranges
 	ranges = data.ranges
 	# Create array for chosen values
-	print(ranges[160])
+	print(ranges[0])
 
 	#bei 170 bis 160 ca. ab 50cm
 

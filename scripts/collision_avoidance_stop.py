@@ -21,15 +21,13 @@ motor_boost = 100
 servo_current_value = servo_straight
 motor_current_value = motor_idle
 
-# State of driving and forward clearance
-isDriving = False
+# State of forward clearance
 lidar_forward_clear = True
 
 # Global publisher
 publisher = None
 
 def drive_until_obstacle():
-	global isDriving
 	global motor_current_value
 	global servo_current_value
 
