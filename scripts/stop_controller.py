@@ -87,8 +87,6 @@ def motor_data_handler(data):
 
 def pwm_setup():
 	# Clock variables
-	#PWM_CLOCK = 192;
-	#PWM_RANGE = 2000;
 	PWM_CLOCK = 96;
 	PWM_RANGE = 4000;
 
@@ -113,10 +111,12 @@ def pwm_setup():
 def lidar_forward_clear_handler(data):
 	lidar_forward_clear_received = data.data
 
+	# Check if the lidar forward clearance has changed with its last update
 	if (lidar_forward_clear_received is False) and (lidar_forward_clear_current is True):
 		global lidar_forward_clear_hasSwiched
 		lidar_forward_clear_hasSwiched = True
 
+	# Save the current lidar forward clear state
 	global lidar_forward_clear_current
 	lidar_forward_clear_current = data.data
 
@@ -124,7 +124,6 @@ def motor_data_receiver_setup():
 	rospy.init_node('motor_controller', anonymous=True)
 	rospy.Subscriber('lucy/motor_control', UInt16, motor_data_handler)
 	rospy.Subscriber('/lucy/lidar_forward_clear', Bool, lidar_forward_clear_handler)
-	# rospy.Subscriber('ultrasonic_sensor_data', Float32, ultrasonic_sensor_data_handler)
 
 if __name__ == '__main__':
 	try:
