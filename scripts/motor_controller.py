@@ -52,7 +52,7 @@ def motor_data_handler(data):
 		int( (motor_received_value - 50) / (50.0 / motor_variance) )
 	
 	# Calculate and apply servo value
-	servo_current_value = servo_straight +
+	servo_current_value = servo_straight +\
 	int( (servo_received_value - 50) / (50.0 / servo_variance) )
 	wiringpi.pwmWrite(PWM_PIN_SERVO, servo_current_value)
 	
