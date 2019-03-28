@@ -48,7 +48,7 @@ def motor_data_handler(data):
 	if motor_received_value == 50:
 		motor_current = motor_idle
 	elif motor_received_value > 50:
-		motor_current = (motor_idle + motor_offset) +
+		motor_current = (motor_idle + motor_offset) +\
 		int( (motor_received_value - 50) / (50.0 / motor_variance) ) - 1
 	elif motor_received_value < 50:
 		if motor_current > 300:
@@ -56,7 +56,7 @@ def motor_data_handler(data):
 			rospy.sleep(0.15)
 			wiringpi.pwmWrite(PWM_PIN_MOTOR, 300)
 			rospy.sleep(0.1)
-		motor_current = (motor_idle - motor_offset) +
+		motor_current = (motor_idle - motor_offset) +\
 		int( (motor_received_value - 50) / (50.0 / motor_variance) )
 
 	# Check if forward is clear and apply motor value if so
@@ -87,7 +87,7 @@ def motor_data_handler(data):
 			
 
 	# Calculate and apply servo value
-	servo_current_value = servo_straight +
+	servo_current_value = servo_straight +\
 	int( (servo_received_value - 50) / (50.0 / servo_variance) )
 	wiringpi.pwmWrite(PWM_PIN_SERVO, servo_current_value)
 	
