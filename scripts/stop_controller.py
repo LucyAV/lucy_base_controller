@@ -68,6 +68,7 @@ def motor_data_handler(data):
 			wiringpi.pwmWrite(PWM_PIN_MOTOR, motor_current)
 		if motor_previous > 300:
 			# If the forward clear just previously changed to false, then brake
+			global lidar_forward_clear_hasSwiched
 			if lidar_forward_clear_hasSwiched is True:
 				wiringpi.pwmWrite(PWM_PIN_MOTOR, 250)
 				rospy.sleep(0.9) # 0.15
@@ -77,7 +78,6 @@ def motor_data_handler(data):
 
 				# Reset the lidar_forward_clear_hasSwitched variable,
 				# as its action has been fulfilled
-				global lidar_forward_clear_hasSwiched
 				lidar_forward_clear_hasSwiched = False
 				wiringpi.pwmWrite(PWM_PIN_MOTOR, motor_current)
 			# Only if the previous value was greater than 300 and the current
@@ -120,12 +120,12 @@ def lidar_forward_clear_handler(data):
 	lidar_forward_clear_received = data.data
 
 	# Check if the lidar forward clearance has changed with its last update
+	global lidar_forward_clear_current
 	if (lidar_forward_clear_received is False) and (lidar_forward_clear_current is True):
 		global lidar_forward_clear_hasSwiched
 		lidar_forward_clear_hasSwiched = True
 
 	# Save the current lidar forward clear state
-	global lidar_forward_clear_current
 	lidar_forward_clear_current = data.data
 
 def motor_data_receiver_setup():
