@@ -52,12 +52,14 @@ def lidar_data_handler(data):
 def lidar_data_receiver_setup():
 	# Initialize the publisher of the forward clear state
 	global publisher
-	publisher = rospy.Publisher('lucy/lidar_forward_clear', Bool, queue_size=10)
+	publisher = rospy.Publisher('lucy/lidar_forward_clear', Bool,\
+	queue_size=10)
 
 	# Initialize this node
 	rospy.init_node('lidar_controller', anonymous=True)
 
-	# Subscribe to the LiDAR scan data and assign a handler for newly received data
+	# Subscribe to the LiDAR scan data and
+	# assign a handler for newly received data
 	rospy.Subscriber('/scan', LaserScan, lidar_data_handler)
 
 	# Keep this software running so that the listener can still be called

@@ -121,7 +121,8 @@ def lidar_forward_clear_handler(data):
 
 	# Check if the lidar forward clearance has changed with its last update
 	global lidar_forward_clear_current
-	if (lidar_forward_clear_received is False) and (lidar_forward_clear_current is True):
+	if (lidar_forward_clear_received is False) and\
+	(lidar_forward_clear_current is True):
 		global lidar_forward_clear_hasSwiched
 		lidar_forward_clear_hasSwiched = True
 
@@ -136,9 +137,10 @@ def motor_data_receiver_setup():
 	# received data coming from either the manual or the autonomous control
 	rospy.Subscriber('lucy/motor_control', UInt16, motor_data_handler)
 	
-	# Subscribe to the forward clearance data from the lidar_controller and assign
-	# a handler for newly received data
-	rospy.Subscriber('/lucy/lidar_forward_clear', Bool, lidar_forward_clear_handler)
+	# Subscribe to the forward clearance data from the lidar_controller
+	# and assign a handler for newly received data
+	rospy.Subscriber('/lucy/lidar_forward_clear', Bool,\
+	lidar_forward_clear_handler)
 
 if __name__ == '__main__':
 	try:
